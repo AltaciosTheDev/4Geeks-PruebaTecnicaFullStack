@@ -1,13 +1,15 @@
 import React from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import '../../styles/navbar.css';
+import { Context } from "../store/appContext";
+
 
 export const Navbar = () => {
+  const { actions,store } = React.useContext(Context);
+
   const handleLogout = () => {
-    // Perform logout logic (e.g., clear authentication tokens, etc.)
-    localStorage.removeItem('user');
-    window.location.href = '/login'; // Redirect to login page
-  };
+	actions.logoutUser();
+  }
 
   const location = useLocation();
   const params = useParams();
@@ -29,7 +31,7 @@ export const Navbar = () => {
       <div className="navbar-container">
         <Link to="/" className="navbar-logo">MyApp</Link>
         <div className="navbar-right">
-          <p className="greeting">Hello, User!</p>
+          <p className="greeting">Hello, {store.profile?.name}!</p>
           <button className="logout-button" onClick={handleLogout}>Sign Out</button>
         </div>
       </div>
