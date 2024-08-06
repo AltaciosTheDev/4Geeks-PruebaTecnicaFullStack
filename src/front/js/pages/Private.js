@@ -3,9 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import Post from '../component/Post';
 import '../../styles/private.css';
 import { Context } from "../store/appContext";
+import PostModal from '../component/PostModal'; // Import the PostModal component
 
 const Private = () => {
-  const { actions,store } = React.useContext(Context);
+  const { actions, store } = useContext(Context);
   const [searchTerm, setSearchTerm] = useState('');
   const [posts, setPosts] = useState([
     // Example posts data
@@ -20,22 +21,31 @@ const Private = () => {
     }
     // Add more posts as needed
   ]);
-
+  const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!store.token) {
       navigate('/login');
     }
-  }, [store.token]);
+  }, [store.token, navigate]);
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
   };
 
   const handleAddPost = () => {
-    // Implement functionality to add a new post
-    console.log('Add new post');
+    setIsModalOpen(true); // Open the modal
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false); // Close the modal
+  };
+
+  const handleSubmitPost = (postData) => {
+    // Implement functionality to send postData to the backend
+    console.log('Post Data:', postData);
+    setPosts([...posts, postData]); // Add the new post to the posts state
   };
 
   const handleLogout = () => {
@@ -65,6 +75,11 @@ const Private = () => {
           <Post key={index} post={post} />
         ))}
       </div>
+      <PostModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        onSubmit={handleSubmitPost}
+      />
     </div>
   );
 };
