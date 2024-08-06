@@ -65,7 +65,7 @@ const Private = () => {
       </button>
       <div className="posts-container">
         {filteredPosts.map((post, index) => (
-          <Post key={index} post={post} />
+          <Post key={index} post={post} currentUser={store.profile} />
         ))}
       </div>
       <PostModal
