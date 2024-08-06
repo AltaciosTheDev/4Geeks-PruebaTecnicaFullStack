@@ -1,5 +1,5 @@
 import React from 'react';
-import './Post.css';
+import '../../styles/post.css';
 
 const Post = ({ post }) => {
   const { image, message, likes, author, created_at, location, status } = post;

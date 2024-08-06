@@ -4,6 +4,7 @@ import ScrollToTop from "./component/scrollToTop";
 import { BackendURL } from "./component/backendURL";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import Private from "./pages/Private"; // Import the Private component
 
 import { Home } from "./pages/home";
 import { Demo } from "./pages/demo";
@@ -19,7 +20,7 @@ const Layout = () => {
     // you can set the basename on the .env file located at the root of this project, E.g: BASENAME=/react-hello-webapp/
     const basename = process.env.BASENAME || "";
 
-    if(!process.env.BACKEND_URL || process.env.BACKEND_URL == "") return <BackendURL/ >;
+    if (!process.env.BACKEND_URL || process.env.BACKEND_URL === "") return <BackendURL />;
 
     return (
         <div>
@@ -27,11 +28,12 @@ const Layout = () => {
                 <ScrollToTop>
                     <Navbar />
                     <Routes>
-                        <Route path="/" exact component={Login} /> {/* Default to Login */}
-                        <Route element={<Demo />} path="/demo" />
-                        <Route element={<Single />} path="/single/:theid" />
-                        <Route element={<Login/>} path="/login"/>
-                        <Route element={<Signup/>} path="/signup"/>
+                        <Route path="/" element={<Login />} /> {/* Default to Login */}
+                        <Route path="/demo" element={<Demo />} />
+                        <Route path="/single/:theid" element={<Single />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/signup" element={<Signup />} />
+                        <Route path="/private" element={<Private />} /> {/* Add Private route */}
                     </Routes>
                 </ScrollToTop>
             </BrowserRouter>
