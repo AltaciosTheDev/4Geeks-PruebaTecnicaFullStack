@@ -2,6 +2,8 @@ import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
 import { BackendURL } from "./component/backendURL";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 
 import { Home } from "./pages/home";
 import { Demo } from "./pages/demo";
@@ -25,12 +27,12 @@ const Layout = () => {
                 <ScrollToTop>
                     <Navbar />
                     <Routes>
-                        <Route element={<Home />} path="/" />
+                        <Route path="/" exact component={Login} /> {/* Default to Login */}
                         <Route element={<Demo />} path="/demo" />
                         <Route element={<Single />} path="/single/:theid" />
-                        <Route element={<h1>Not found!</h1>} />
+                        <Route element={<Login/>} path="/login"/>
+                        <Route element={<Signup/>} path="/signup"/>
                     </Routes>
-                    <Footer />
                 </ScrollToTop>
             </BrowserRouter>
         </div>
