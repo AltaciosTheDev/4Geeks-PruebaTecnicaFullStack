@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import '../../styles/login.css';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate(); // Add useNavigate hook
 
   const handleLogin = (e) => {
     e.preventDefault();
     // Add login logic here (e.g., API call to authenticate the user)
     console.log('Logging in with:', { username, password });
+
+    // On successful login, redirect to the private page
+    navigate('/private');
   };
 
   return (
@@ -45,7 +49,7 @@ const Login = () => {
         <button type="submit">Login</button>
       </form>
       <div className="auth-footer">
-        <p>Don't have an account? <Link to="/signup">Sign up</Link></p>
+        <p>Don't have an account? <a href="/signup">Sign up</a></p>
       </div>
     </div>
   );
