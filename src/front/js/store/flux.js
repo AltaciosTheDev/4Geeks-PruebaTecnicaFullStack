@@ -16,6 +16,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			],
 			token: localStorage.getItem("token") || null,
 			profile: JSON.parse(localStorage.getItem("profile")) || null,
+			posts: [],
 
 		},
 		actions: {
@@ -111,9 +112,29 @@ const getState = ({ getStore, getActions, setStore }) => {
                     const data = await response.json();
                     console.log("Post created successfully:", data);
                     // Optionally, update the posts in the store
-                    // setStore({ posts: [...store.posts, data] });
+                    setStore({ posts: [...store.posts, data] });
                 } catch (error) {
                     console.error("Error creating post:", error);
+                }
+            },
+			fetchAllPosts: async () => {
+                try {
+                    const response = await fetch(`${process.env.BACKEND_URL}/api/posts`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    if (!response.ok) {
+                        throw new Error("Failed to fetch posts");
+                    }
+
+                    const data = await response.json();
+                    console.log("Posts fetched successfully:", data);
+                    setStore({ posts: data });
+                } catch (error) {
+                    console.error("Error fetching posts:", error);
                 }
             }
 		}

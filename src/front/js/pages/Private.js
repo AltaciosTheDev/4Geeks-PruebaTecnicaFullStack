@@ -8,27 +8,16 @@ import PostModal from '../component/PostModal'; // Import the PostModal componen
 const Private = () => {
   const { actions, store } = useContext(Context);
   const [searchTerm, setSearchTerm] = useState('');
-  const [posts, setPosts] = useState([
-    // Example posts data
-    {
-      image: 'https://via.placeholder.com/600x400',
-      message: 'A beautiful sunset!',
-      likes: [{ name: 'John Doe' }],
-      author: { avatar: 'https://via.placeholder.com/40', name: 'Jane', surname: 'Doe' },
-      created_at: new Date(),
-      location: 'Beach',
-      status: 'published'
-    }
-    // Add more posts as needed
-  ]);
   const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!store.token) {
       navigate('/login');
+    } else {
+      actions.fetchAllPosts(); // Fetch all posts when the component is mounted
     }
-  }, [store.token, navigate]);
+  }, [store.token, store.posts]);
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
@@ -52,7 +41,7 @@ const Private = () => {
     navigate('/login');
   };
 
-  const filteredPosts = posts.filter(post =>
+  const filteredPosts = store.posts.filter(post =>
     post.message.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
