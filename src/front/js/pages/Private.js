@@ -17,7 +17,7 @@ const Private = () => {
     } else {
       actions.fetchAllPosts(); // Fetch all posts when the component is mounted
     }
-  }, [store.token, store.posts]);
+  }, [store.token]);
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
@@ -41,9 +41,14 @@ const Private = () => {
     navigate('/login');
   };
 
-  const filteredPosts = store.posts.filter(post =>
-    post.message.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // Filter and sort posts by date and time in descending order
+  const filteredPosts = store.posts
+    .filter(post => post.message.toLowerCase().includes(searchTerm.toLowerCase()))
+    .sort((a, b) => {
+      const dateA = new Date(a.created_at);
+      const dateB = new Date(b.created_at);
+      return dateB - dateA; // Sort by date and time in descending order
+    });
 
   return (
     <div className="private-container">
