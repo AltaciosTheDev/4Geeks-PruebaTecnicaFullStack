@@ -77,3 +77,9 @@ def create_post():
     db.session.commit()
 
     return jsonify(new_post.serialize()), 201
+
+# get all posts
+@api.route("/posts", methods=["GET"])
+def get_all_posts():
+    posts = Post.query.all()
+    return jsonify([post.serialize() for post in posts]), 200

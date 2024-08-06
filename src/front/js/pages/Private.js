@@ -43,9 +43,8 @@ const Private = () => {
   };
 
   const handleSubmitPost = (postData) => {
-    // Implement functionality to send postData to the backend
-    console.log('Post Data:', postData);
-    setPosts([...posts, postData]); // Add the new post to the posts state
+    actions.createPost(postData); // Use the createPost function from flux
+    setIsModalOpen(false); // Close the modal after submitting
   };
 
   const handleLogout = () => {

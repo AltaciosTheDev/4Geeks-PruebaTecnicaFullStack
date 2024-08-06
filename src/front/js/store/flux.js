@@ -84,7 +84,38 @@ const getState = ({ getStore, getActions, setStore }) => {
 				localStorage.removeItem('token');
 				localStorage.removeItem('profile');
 				console.log('Logout successful');
-			  }
+			  },
+			  createPost: async (postData) => {
+                const store = getStore();
+                const token = store.token;
+
+                if (!token) {
+                    console.error("No token found");
+                    return;
+                }
+
+                try {
+                    const response = await fetch(`${process.env.BACKEND_URL}/api/create_post`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify(postData)
+                    });
+
+                    if (!response.ok) {
+                        throw new Error("Failed to create post");
+                    }
+
+                    const data = await response.json();
+                    console.log("Post created successfully:", data);
+                    // Optionally, update the posts in the store
+                    // setStore({ posts: [...store.posts, data] });
+                } catch (error) {
+                    console.error("Error creating post:", error);
+                }
+            }
 		}
 	};
 };
