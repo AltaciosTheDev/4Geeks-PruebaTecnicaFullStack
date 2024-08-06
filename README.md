@@ -59,4 +59,4 @@ Please create a user in the admin view with the following details:
 
 ## Video Tutorial 
 
-There is a video named "VideoTutorial4GeeksTechnicalTest" that you can click and view a brief showcase of the apps features. 
+There is a video named `VideoTutorial4GeeksTechnicalTest` that you can click and view a brief showcase of the apps features. 
