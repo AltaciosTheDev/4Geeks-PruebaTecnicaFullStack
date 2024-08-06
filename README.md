@@ -56,3 +56,7 @@ Please create a user in the admin view with the following details:
 3. **Deployment**
 4. **Export of posts in JSON format**
 5. **Alerts and toasts for errors from backend, user will have to use the console**
+
+## Video Tutorial 
+
+There is a video named "VideoTutorial4GeeksTechnicalTest" that you can click and view a brief showcase of the apps features. 
