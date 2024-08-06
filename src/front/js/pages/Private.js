@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Post from '../component/Post';
 import '../../styles/private.css';
+import { Context } from "../store/appContext";
 
 const Private = () => {
+  const { actions,store } = React.useContext(Context);
   const [searchTerm, setSearchTerm] = useState('');
   const [posts, setPosts] = useState([
     // Example posts data
@@ -18,6 +21,14 @@ const Private = () => {
     // Add more posts as needed
   ]);
 
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!store.token) {
+      navigate('/login');
+    }
+  }, [store.token]);
+
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
   };
@@ -25,6 +36,11 @@ const Private = () => {
   const handleAddPost = () => {
     // Implement functionality to add a new post
     console.log('Add new post');
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/login');
   };
 
   const filteredPosts = posts.filter(post =>

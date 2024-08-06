@@ -1,19 +1,24 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import '../../styles/login.css';
+import { Context } from "../store/appContext";
 
 const Login = () => {
+  const { store, actions } = useContext(Context);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate(); // Add useNavigate hook
+  const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    // Add login logic here (e.g., API call to authenticate the user)
-    console.log('Logging in with:', { username, password });
+    const result = await actions.loginUser(username, password);
 
-    // On successful login, redirect to the private page
-    navigate('/private');
+    if (result) {
+      navigate('/private');
+    } else {
+      // Handle login failure (e.g., show an error message)
+      console.error('Login failed');
+    }
   };
 
   return (
@@ -26,11 +31,7 @@ const Login = () => {
             type="text"
             id="username"
             value={username}
-            onChange={(e) => {
-              setUsername(e.target.value);
-              console.log('Username:', e.target.value);
-            }}
-            required
+            onChange={(e) => setUsername(e.target.value)}
           />
         </div>
         <div className="input-group">
@@ -39,18 +40,11 @@ const Login = () => {
             type="password"
             id="password"
             value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-              console.log('Password:', e.target.value);
-            }}
-            required
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
         <button type="submit">Login</button>
       </form>
-      <div className="auth-footer">
-        <p>Don't have an account? <a href="/signup">Sign up</a></p>
-      </div>
     </div>
   );
 };
