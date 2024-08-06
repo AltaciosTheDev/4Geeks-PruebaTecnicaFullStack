@@ -29,7 +29,7 @@ export const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-container">
-        <Link to="/" className="navbar-logo">MyApp</Link>
+        <Link to="/" className="navbar-logo">Dtech Inc</Link>
         <div className="navbar-right">
           <p className="greeting">Hello, {store.profile?.name}!</p>
           <button className="logout-button" onClick={handleLogout}>Sign Out</button>

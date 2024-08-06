@@ -62,6 +62,7 @@ class Post(db.Model):
             "image": self.image if self.image else None,
             "message": self.message,
             "author_id": self.author_id,
+            "author_name": f"{self.author.name} {self.author.surname}" if self.author else None,
             "created_at": self.created_at,
             "location": self.location,
             "status": self.status,

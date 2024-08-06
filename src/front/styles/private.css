@@ -41,3 +41,21 @@
     flex-direction: column;
   }
   
+  .private-page {
+    padding: 20px;
+  }
+  
+  .add-post-button {
+    background-color: #ff7f50; /* Light orange color */
+    border: none;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .add-post-button:hover {
+    background-color: #ff6f40; /* Darker orange for hover effect */
+  }
+  
