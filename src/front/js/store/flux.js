@@ -136,7 +136,33 @@ const getState = ({ getStore, getActions, setStore }) => {
                 } catch (error) {
                     console.error("Error fetching posts:", error);
                 }
-            }
+            },
+			toggleLike: async (postId) => {
+				const store = getStore();
+				
+				try {
+				  // Send the like/unlike request to the backend
+				  const response = await fetch(`${process.env.BACKEND_URL}/api/like`, {
+					method: 'POST',
+					headers: {
+					  'Content-Type': 'application/json',
+					  'Authorization': `Bearer ${store.token}`
+					},
+					body: JSON.stringify({ post_id: postId })
+				  });
+			  
+				  if (response.ok) {
+					console.log("Successfully toggled like");
+					// Fetch all posts to update the frontend
+					await getActions().fetchAllPosts();
+				  } else {
+					const errorData = await response.json();
+					console.error("Failed to toggle like", response.status, errorData);
+				  }
+				} catch (error) {
+				  console.error("Error in toggleLike function", error);
+				}
+			  }
 		}
 	};
 };

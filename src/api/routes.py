@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Post # Import the User and Post models
+from api.models import db, User, Post, Like # Import the User and Post models
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from flask_jwt_extended import create_access_token
@@ -83,3 +83,38 @@ def create_post():
 def get_all_posts():
     posts = Post.query.all()
     return jsonify([post.serialize() for post in posts]), 200
+
+@api.route("/like", methods=["POST"])
+@jwt_required()
+def like_post():
+    current_user = get_jwt_identity()
+    user = User.query.filter_by(username=current_user).one_or_none()
+    
+    if user is None:
+        return jsonify({"msg": "User not found"}), 404
+
+    post_id = request.json.get("post_id", None)
+    if post_id is None:
+        return jsonify({"msg": "Post ID is required"}), 400
+
+    post = Post.query.get(post_id)
+    if post is None:
+        return jsonify({"msg": "Post not found"}), 404
+
+    # Check if the user has already liked the post
+    existing_like = Like.query.filter_by(user_id=user.id, post_id=post_id).first()
+    if existing_like:
+        db.session.delete(existing_like)
+        db.session.commit()
+        return jsonify({"msg": "Like removed"}), 200
+
+    new_like = Like(user_id=user.id, post_id=post_id)
+    db.session.add(new_like)
+    db.session.commit()
+
+    return jsonify(new_like.serialize()), 201
+
+@api.route("/likes", methods=["GET"])
+def get_all_likes():
+    likes = Like.query.all()
+    return jsonify([like.serialize() for like in likes]), 200
