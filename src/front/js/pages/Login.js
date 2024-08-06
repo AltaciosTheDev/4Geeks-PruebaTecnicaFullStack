@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../../styles/login.css';
 import { Context } from "../store/appContext";
 
@@ -45,6 +45,9 @@ const Login = () => {
         </div>
         <button type="submit">Login</button>
       </form>
+      <div className="auth-footer">
+        <p>Don't have an account? <Link to="/signup">Sign Up</Link></p>
+      </div>
     </div>
   );
 };
